@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "e945ba40-aecd-489e-93ef-69958631e26a": {
+      "ProjectGuid": "e945ba40-aecd-489e-93ef-69958631e26a",
+      "DisplayName": "BankMicroservice",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
