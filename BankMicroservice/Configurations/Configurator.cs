@@ -1,5 +1,7 @@
 using BankMicroservice.Configurations.AppSettingItems;
 using BankMicroservice.Model;
+using BankMicroservice.Repository.GenericRepository;
+using BankMicroservice.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankMicroservice.Configuration
@@ -19,6 +21,9 @@ namespace BankMicroservice.Configuration
       services.Configure<ApplicationSetting>(configuration);
       services.Configure<MeliBankData>(configuration.GetSection("MelliData"));
       services.Configure<VandarBankData>(configuration.GetSection("VandarData"));
+
+      services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+      services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
     }
