@@ -53,22 +53,30 @@ namespace BankMicroservice.Repository.GenericRepository
     /// <param name="take">take</param>
     /// <returns></returns>
     public async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
-      Expression<Func<T, IOrderedQueryable<T>>> orderBy = null,
+      Func<T, IOrderedQueryable<T>> orderBy = null,
       OrderByType? orderByType = null,
+      List<string> includes = null,
       int? skip = null,
       int? take = null,
       bool? distinct = null)
     {
 
       var models =  _model.AsQueryable().AsNoTrackingWithIdentityResolution();
-      if (query != null) models = models.Where(query);
-      if(orderBy != null && orderByType == OrderByType.Asc) models = models.OrderBy(orderBy);
-      if(orderBy != null && orderByType == OrderByType.Desc) models = models.OrderByDescending(orderBy);
+      if (query != null) models = models.Where(query); 
+      if(includes != null && includes.Count()>0)
+      {
+        foreach (var includeProperty in includes)
+        {
+          models.Include(includeProperty);
+        }
+      }
       if(skip != null) models.Skip((int)skip);
       if(take != null) models.Take((int)take);
-      if(distinct != null) models.Distinct();
+      if (orderBy != null && orderByType == OrderByType.Asc) models = models.OrderBy(orderBy).AsQueryable();
+      if (orderBy != null && orderByType == OrderByType.Desc) models = models.OrderByDescending(orderBy).AsQueryable();
+      if (orderBy != null && orderByType == null) models = models.OrderBy(orderBy).AsQueryable();
+      if (distinct != null) models.Distinct();
 
-      
       return models;
 
     }
@@ -76,8 +84,20 @@ namespace BankMicroservice.Repository.GenericRepository
     public async Task<T> GetSingleAsync(long id)
     => await _model.FindAsync(id);
 
-    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> query)
-    => await _model.FindAsync(query);
+    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> query, List<string> includes = null)
+    {
+
+      var model = _model.AsNoTrackingWithIdentityResolution().AsQueryable();
+      if (includes != null && includes.Count() > 0)
+      {
+        foreach (var includeProperty in includes)
+        {
+          _model.Include(includeProperty);
+        }
+      }
+      return await model.FirstOrDefaultAsync(query);
+      
+    }
 
     public async Task UpdateAsync(T model)
     {
