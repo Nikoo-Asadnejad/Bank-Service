@@ -5,6 +5,6 @@ namespace BankMicroservice.Repository.UnitOfWork
 {
   public interface IUnitOfWork 
   {
-    IRepository<BankTransaction> BankTransaction();
+    IRepository<BankTransactionModel> BankTransaction();
   }
 }

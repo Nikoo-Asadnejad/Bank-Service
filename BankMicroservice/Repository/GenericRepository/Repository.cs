@@ -1,5 +1,5 @@
 using BankMicroservice.Model;
-using BankMicroservice.Persistance.Enumerations;
+using BankMicroservice.Persistances.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -26,6 +26,9 @@ namespace BankMicroservice.Repository.GenericRepository
       await _model.AddRangeAsync(models);
       await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> AnyAsync(Expression<Func<T, bool>> query)
+    => await _model.AnyAsync(query);
 
     public async Task DeleteAsync(long id)
     {
