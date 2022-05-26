@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "qTiYgf6Zza59+oqwJ5vYVhbXtq+pUM0E+fNQsdjmV9w=",
+  "Source": "BankMicroservice",
+  "BasePath": "_content/BankMicroservice",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
