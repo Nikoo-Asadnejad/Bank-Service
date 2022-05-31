@@ -56,6 +56,7 @@ namespace BankMicroservice.Repository.GenericRepository
     /// <param name="take">take</param>
     /// <returns></returns>
     public async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
+      Func<T,object> selector = null,
       Func<T, IOrderedQueryable<T>> orderBy = null,
       OrderByType? orderByType = null,
       List<string> includes = null,
@@ -73,6 +74,7 @@ namespace BankMicroservice.Repository.GenericRepository
           models.Include(includeProperty);
         }
       }
+      if (selector != null) models.Select(selector);
       if(skip != null) models.Skip((int)skip);
       if(take != null) models.Take((int)take);
       if (orderBy != null && orderByType == OrderByType.Asc) models = models.OrderBy(orderBy).AsQueryable();
@@ -87,18 +89,26 @@ namespace BankMicroservice.Repository.GenericRepository
     public async Task<T> GetSingleAsync(long id)
     => await _model.FindAsync(id);
 
-    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> query, List<string> includes = null)
+    public async Task<object> GetSingleAsync(Expression<Func<T, bool>> query,
+      Func<T,object> selector = null,
+      List<string> includes = null)
     {
+      object result;
 
-      var model = _model.AsNoTrackingWithIdentityResolution().AsQueryable();
+      dynamic model = _model.AsNoTrackingWithIdentityResolution().AsQueryable();
       if (includes != null && includes.Count() > 0)
       {
         foreach (var includeProperty in includes)
         {
-          _model.Include(includeProperty);
+          model.Include(includeProperty);
         }
       }
-      return await model.FirstOrDefaultAsync(query);
+
+      if (query != null) model = model.Where(query);
+      if (selector != null)
+        var uui = model.Select(selector).FirstOrDefault();
+      
+      return model;
       
     }
 

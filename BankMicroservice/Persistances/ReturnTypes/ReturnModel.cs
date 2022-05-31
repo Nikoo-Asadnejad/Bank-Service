@@ -7,7 +7,7 @@ namespace BankMicroservice.Persistances.ReturnTypes
     public HttpStatusCode HttpStatusCode { get; set; }
     public string Message { get; set; }
     public T Data { get; set; }
-    public T DataTitle { get; set; }
+    public string DataTitle { get; set; }
 
   }
 }

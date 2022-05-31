@@ -8,11 +8,11 @@ using System.Net;
 
 namespace BankMicroservice.Repository.BankTransactionRepository
 {
-  public class BankTransactionRepository : IBankTransactionRepository
+  public class BankTransactionService : IBankTransactionService
   {
     private IUnitOfWork _unitOfWork;
     private IRepository<BankTransactionModel> _repository;
-    public BankTransactionRepository(IUnitOfWork unitOfWork)
+    public BankTransactionService(IUnitOfWork unitOfWork)
     {
       _unitOfWork = unitOfWork;
       _repository = _unitOfWork.BankTransaction();
@@ -49,5 +49,22 @@ namespace BankMicroservice.Repository.BankTransactionRepository
       return result;
     }
 
+    public async Task<ReturnModel<long>> GetTransactionIdByToken(string token)
+    {
+      ReturnModel<long> result = new();
+      long transactionId =(long) _repository.GetSingleAsync(x => x.BankToken == token,x=> x.Id).Result;
+      if(transactionId == null ||  transactionId == 0)
+      {
+        result.HttpStatusCode = HttpStatusCode.NotFound;
+        result.Message = "تراکنش مورد نظر یافت نشد";
+        return result;
+      }
+
+      result.HttpStatusCode = HttpStatusCode.OK;
+      result.Data = transactionId;
+      result.DataTitle = "Transaction Id";
+      result.Message = ReturnMessage.SuccessMessage;
+      return result;
+    }
   }
 }

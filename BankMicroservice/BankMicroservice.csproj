@@ -33,4 +33,10 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="HttpService">
+      <HintPath>..\..\HttpService\HttpServiceDll\HttpService\bin\Release\net6.0\HttpService.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

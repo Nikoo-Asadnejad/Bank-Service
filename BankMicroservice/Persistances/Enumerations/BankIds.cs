@@ -1,8 +1,8 @@
 namespace BankMicroservice.Persistances.Enumerations
 {
-  public enum OrderByType
+  public enum BankIds
   {
-    Desc,
-    Asc
+    Sadad = 1,
+    Vandar = 2
   }
 }

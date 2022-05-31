@@ -3,6 +3,7 @@ using BankMicroservice.Model;
 using BankMicroservice.Repository.GenericRepository;
 using BankMicroservice.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using HttpService.Utils;
 
 namespace BankMicroservice.Configuration
 {
@@ -24,6 +25,7 @@ namespace BankMicroservice.Configuration
 
       services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
       services.AddTransient<IUnitOfWork, UnitOfWork>();
+      HttpServiceConfigurator.InjectHttpService(services);
 
 
     }

@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace GrootFinancial.Dtos.Bank
+namespace BankMicroservice.Dtos.Bank
 {
     public class VerifyResultDto
     {

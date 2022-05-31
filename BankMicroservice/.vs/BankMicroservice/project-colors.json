@@ -1,5 +1,11 @@
 {
   "Version": 1,
-  "ProjectMap": {},
-  "NextColorIndex": 0
+  "ProjectMap": {
+    "fc64df3f-3265-485f-914f-4b208b299fa1": {
+      "ProjectGuid": "fc64df3f-3265-485f-914f-4b208b299fa1",
+      "DisplayName": "BankMicroservice",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
 }

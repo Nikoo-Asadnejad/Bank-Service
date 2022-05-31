@@ -1,4 +1,4 @@
-﻿namespace GrootFinancial.Dtos.Bank
+namespace BankMicroservice.Dtos.Bank
 {
     public class PurchaseResultDto
     {

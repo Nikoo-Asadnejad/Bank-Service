@@ -5,6 +5,6 @@ namespace BankMicroservice.Model
 {
   public class Context : DbContext
   {
-    public DbSet<BankTransaction> BankTransactions { get; set; }
+    public DbSet<BankTransactionModel> BankTransactions { get; set; }
   }
 }

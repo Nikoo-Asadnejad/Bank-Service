@@ -1,4 +1,4 @@
-﻿namespace GrootFinancial.Dtos.BankTransaction
+namespace BankMicroservice.Dtos.Bank
 {
     public class PaymentResultDto
     {
@@ -6,13 +6,13 @@
         public string Token { get; set; }
         public string Description { get; set; }
 
-        public long? OrderId { get; set; }  
+        public string OrderId { get; set; }  
  
         public PaymentResultDto()
         {
 
         }
-        public  PaymentResultDto(int resultCode ,long? orderId, string token, string description)
+        public  PaymentResultDto(int resultCode ,string orderId, string token, string description)
         {
             ResultCode = resultCode;
             Token = token;
