@@ -4,6 +4,7 @@ using BankMicroservice.Persistances.ReturnTypes;
 using BankMicroservice.Repository.GenericRepository;
 using BankMicroservice.Repository.UnitOfWork;
 using BankMicroservice.Utils;
+using HttpService.Utils;
 using System.Net;
 
 namespace BankMicroservice.Repository.BankTransactionRepository
@@ -35,6 +36,7 @@ namespace BankMicroservice.Repository.BankTransactionRepository
       {
         BankId = inputModel.BankId,
         OrderId = inputModel.OrderId,
+        IsSuccessfull = null,
         BankResult = inputModel.BankResult.Serialize<object>(),
         TransactionDate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
         
@@ -48,6 +50,7 @@ namespace BankMicroservice.Repository.BankTransactionRepository
 
       return result;
     }
+
 
     public async Task<ReturnModel<long>> GetTransactionIdByToken(string token)
     {
@@ -65,6 +68,24 @@ namespace BankMicroservice.Repository.BankTransactionRepository
       result.DataTitle = "Transaction Id";
       result.Message = ReturnMessage.SuccessMessage;
       return result;
+    }
+
+    public async Task<ReturnModel<long>> SetTransactionState(long transactionId ,bool isSuccessfull)
+    {
+
+      ReturnModel<long> result = new();
+
+      var transaction = _repository.GetSingleAsync(transactionId).Result;
+      transaction.IsSuccessfull = isSuccessfull;
+      await _repository.UpdateAsync(transaction);
+
+      result.HttpStatusCode = HttpStatusCode.OK;
+      result.Data = transaction.Id;
+      result.DataTitle = "Transaction Id";
+      result.Message = ReturnMessage.SuccessMessage;
+      return result;
+
+
     }
   }
 }

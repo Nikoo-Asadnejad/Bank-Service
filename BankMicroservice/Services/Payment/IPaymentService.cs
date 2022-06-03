@@ -6,6 +6,6 @@ namespace BankMicroservice.Services.Payment
   public interface IPaymentService
   {
     Task<ReturnModel<PaymentResultDto>> Payment(PaymentInputDto paymentInput);
-    Task Verify();
+    Task<ReturnModel<VerifyResultDto>> Verify();
   }
 }

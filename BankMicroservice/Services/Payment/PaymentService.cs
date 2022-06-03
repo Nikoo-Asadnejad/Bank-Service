@@ -2,6 +2,7 @@ using BankMicroservice.Dtos.BankTransaction;
 using BankMicroservice.Dtos.Payment;
 using BankMicroservice.Persistances.ReturnTypes;
 using BankMicroservice.Repository.BankTransactionRepository;
+using System.Net;
 
 namespace BankMicroservice.Services.Payment
 {
@@ -21,15 +22,33 @@ namespace BankMicroservice.Services.Payment
       
       ReturnModel<PaymentResultDto> paymentRequestResult = bankService.PaymentRequestAsync(paymentInput).Result;
       AddBankTransactionInputDto addBankTransactionInput = new(paymentInput.BankId, paymentInput.OrderId, paymentRequestResult);
-
       ReturnModel<long> addBankTransactionResult = _bankTransactionService.AddBankTransaction(addBankTransactionInput).Result;
 
       return paymentRequestResult;
     }
 
-    public Task Verify()
+    public async Task<ReturnModel<VerifyResultDto>> Verify(VerifyInputDto verifyInput)
     {
-      throw new NotImplementedException();
+      ReturnModel<VerifyResultDto> result = new();
+      var bankService = _bankService(verifyInput.BankId);
+      var verifyRequestResult = bankService.VerifyRequestAsync(verifyInput).Result;
+
+      long transactionId = _bankTransactionService.GetTransactionIdByToken(verifyRequestResult.Data.Token).Result.Data;
+
+      if(verifyRequestResult.Data.ResultCode == 0)
+      {
+        await _bankTransactionService.SetTransactionState(transactionId, isSuccessfull : true);
+      }
+      else
+      {
+        await _bankTransactionService.SetTransactionState(transactionId, isSuccessfull: false);
+      }
+
+
+      result.Data = verifyRequestResult.Data;
+      result.Message = ReturnMessage.SuccessMessage;
+      result.HttpStatusCode = HttpStatusCode.OK;
+      return result;
     }
   }
 }
