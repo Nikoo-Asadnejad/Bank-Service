@@ -56,6 +56,7 @@ namespace BankMicroservice.Repository.GenericRepository
     /// <param name="take">take</param>
     /// <returns></returns>
     public async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
+
       Func<T,object> selector = null,
       Func<T, IOrderedQueryable<T>> orderBy = null,
       OrderByType? orderByType = null,
@@ -105,8 +106,7 @@ namespace BankMicroservice.Repository.GenericRepository
       }
 
       if (query != null) model = model.Where(query);
-      if (selector != null)
-        var uui = model.Select(selector).FirstOrDefault();
+      if (selector != null) model = model.Select(selector).FirstOrDefault();
       
       return model;
       

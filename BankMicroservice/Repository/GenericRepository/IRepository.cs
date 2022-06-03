@@ -6,7 +6,7 @@ namespace BankMicroservice.Repository.GenericRepository
   public interface IRepository<T>  where T : class
   {
     Task<T> GetSingleAsync(long id);
-    Task<T> GetSingleAsync(Expression<Func<T, bool>> query,
+    Task<object> GetSingleAsync(Expression<Func<T, bool>> query,
       Func<T, object> selector = null,
       List<string> includes = null);
     Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,

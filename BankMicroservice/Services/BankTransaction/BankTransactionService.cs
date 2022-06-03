@@ -18,7 +18,7 @@ namespace BankMicroservice.Repository.BankTransactionRepository
       _repository = _unitOfWork.BankTransaction();
     }
 
-    public async Task<ReturnModel<long>> AddBankTransaction(AddBankTransactionInputModel inputModel)
+    public async Task<ReturnModel<long>> AddBankTransaction(AddBankTransactionInputDto inputModel)
     {
 
       ReturnModel<long> result = new();

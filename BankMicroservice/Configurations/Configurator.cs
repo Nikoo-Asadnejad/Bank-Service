@@ -4,6 +4,11 @@ using BankMicroservice.Repository.GenericRepository;
 using BankMicroservice.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using HttpService.Utils;
+using BankMicroservice.Repository.BankTransactionRepository;
+using BankMicroservice.Services.Payment;
+using BankMicroservice.Services;
+using BankMicroservice.Persistances.Enumerations;
+using BankMicroservice.Services.Bank;
 
 namespace BankMicroservice.Configuration
 {
@@ -23,9 +28,24 @@ namespace BankMicroservice.Configuration
       services.Configure<MeliBankData>(configuration.GetSection("MelliData"));
       services.Configure<VandarBankData>(configuration.GetSection("VandarData"));
 
+      HttpServiceConfigurator.InjectHttpService(services);
       services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
       services.AddTransient<IUnitOfWork, UnitOfWork>();
-      HttpServiceConfigurator.InjectHttpService(services);
+      services.AddTransient<IBankTransactionService, BankTransactionService>();
+      services.AddTransient<IPaymentService, PaymentService>();
+      services.AddTransient<SadadBankService>();
+      services.AddTransient<VandarBankService>();
+      services.AddTransient<Func<int, IBankService>>(serviceProvider => bankId =>
+      {
+          switch(bankId)
+        {
+          case (int)BankIds.Sadad : return serviceProvider.GetService<SadadBankService>();
+          case (int)BankIds.Vandar : return serviceProvider.GetService<VandarBankService>();
+          default : return  serviceProvider.GetService<SadadBankService>();
+        }
+          
+      });
+      
 
 
     }
