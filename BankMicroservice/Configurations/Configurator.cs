@@ -10,6 +10,8 @@ using BankMicroservice.Services;
 using BankMicroservice.Persistances.Enumerations;
 using BankMicroservice.Services.Bank;
 using HttpService.Configuration;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace BankMicroservice.Configuration
 {
@@ -21,7 +23,19 @@ namespace BankMicroservice.Configuration
 
       //swagger
       services.AddEndpointsApiExplorer();
-      services.AddSwaggerGen();
+      services.AddSwaggerGen(options =>
+      {
+        options.SwaggerDoc("v1", new OpenApiInfo
+        {
+          Version = "v1",
+          Title = "Banks API",
+          Description = "An ASP.NET Core Web API for Interacting with different Bank Gateways",
+         
+        });
+
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+      });
 
       services.AddDbContext<Context>(options => options.UseSqlServer(configuration.GetConnectionString("BankDb")));
 
@@ -55,7 +69,9 @@ namespace BankMicroservice.Configuration
       if (app.Environment.IsDevelopment())
       {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c => {
+          c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banks API");
+        });
       }
 
       app.UseHttpsRedirection();

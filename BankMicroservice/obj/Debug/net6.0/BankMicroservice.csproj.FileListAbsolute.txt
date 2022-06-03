@@ -65,3 +65,5 @@ D:\web development\projects\BankMicroservice\BankMicroservice\obj\Debug\net6.0\B
 D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\Dlls\HttpService.deps.json
 D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\HttpService.dll
 D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\HttpService.pdb
+D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\BankMicroservice.xml
+D:\web development\projects\BankMicroservice\BankMicroservice\obj\Debug\net6.0\BankMicroservice.xml
