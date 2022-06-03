@@ -9,6 +9,7 @@ using BankMicroservice.Services.Payment;
 using BankMicroservice.Services;
 using BankMicroservice.Persistances.Enumerations;
 using BankMicroservice.Services.Bank;
+using HttpService.Configuration;
 
 namespace BankMicroservice.Configuration
 {
@@ -27,7 +28,7 @@ namespace BankMicroservice.Configuration
       services.Configure<ApplicationSetting>(configuration);
       services.Configure<MeliBankData>(configuration.GetSection("MelliData"));
       services.Configure<VandarBankData>(configuration.GetSection("VandarData"));
-
+      
       HttpServiceConfigurator.InjectHttpService(services);
       services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
       services.AddTransient<IUnitOfWork, UnitOfWork>();

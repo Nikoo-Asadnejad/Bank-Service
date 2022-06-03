@@ -62,3 +62,6 @@ D:\web development\projects\BankMicroservice\BankMicroservice\obj\Debug\net6.0\B
 D:\web development\projects\BankMicroservice\BankMicroservice\obj\Debug\net6.0\ref\BankMicroservice.dll
 D:\web development\projects\BankMicroservice\BankMicroservice\obj\Debug\net6.0\BankMicroservice.pdb
 D:\web development\projects\BankMicroservice\BankMicroservice\obj\Debug\net6.0\BankMicroservice.genruntimeconfig.cache
+D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\Dlls\HttpService.deps.json
+D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\HttpService.dll
+D:\web development\projects\BankMicroservice\BankMicroservice\bin\Debug\net6.0\HttpService.pdb
