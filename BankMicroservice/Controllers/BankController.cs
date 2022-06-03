@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Http;
 namespace BankMicroservice.Controllers
 {
   [Controller]
-  public class BanksController : Controller
+  public class BankController : Controller
   {
     private readonly IPaymentService _paymentService;
-    public BanksController(IPaymentService paymentService)
+    public BankController(IPaymentService paymentService)
     {
       _paymentService = paymentService;
     }

@@ -7,7 +7,10 @@ namespace BankMicroservice.Repository.GenericRepository
   {
     Task<T> GetSingleAsync(long id);
     Task<object> GetSingleAsync(Expression<Func<T, bool>> query,
-      Func<T, object> selector = null,
+      Func<T, object> selector ,
+      List<string> includes = null);
+
+    Task<T> GetSingleAsync(Expression<Func<T, bool>> query,
       List<string> includes = null);
 
     /// <summary>
@@ -22,8 +25,16 @@ namespace BankMicroservice.Repository.GenericRepository
     /// <param name="take">take</param>
     /// <param name="distinct">isDistinct</param>
     /// <returns></returns>
-    Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
+    Task<IQueryable<object>> GetListAsync(Expression<Func<T, bool>> query = null,
                                 Func<T, object> selector = null,
+                                Func<T, IOrderedQueryable<T>> orderBy = null,
+                                OrderByType? orderByType = null,
+                                List<string> includes = null,
+                                int? skip = 0,
+                                int? take = null,
+                                bool? distinct = null);
+
+    Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
                                 Func<T, IOrderedQueryable<T>> orderBy = null,
                                 OrderByType? orderByType = null,
                                 List<string> includes = null,

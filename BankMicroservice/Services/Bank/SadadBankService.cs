@@ -2,8 +2,9 @@ using BankMicroservice.Configurations.AppSettingItems;
 using BankMicroservice.Dtos.Bank;
 using BankMicroservice.Dtos.Bank.Sadad;
 using BankMicroservice.Dtos.Payment;
+using BankMicroservice.Entities;
 using BankMicroservice.Persistances.ReturnTypes;
-using BankMicroservice.Repository.BankTransactionRepository;
+using BankMicroservice.Services.BankTransactions;
 using HttpService.Interface;
 using Microsoft.Extensions.Options;
 using System.Net;
@@ -153,8 +154,8 @@ namespace BankMicroservice.Services
         }
         else
         {
-          var getTransactionByToken = _bankTransactionService.GetTransactionIdByToken(token).Result;
-          bankTransactionId = getTransactionByToken.Data;
+          ReturnModel<BankTransactionModel> transaction = _bankTransactionService.GetTransactionByToken(token).Result;
+          bankTransactionId = transaction.Data.Id;
         }
         result.HttpStatusCode = HttpStatusCode.OK;
         result.Message = ReturnMessage.SuccessMessage;

@@ -1,7 +1,7 @@
 using BankMicroservice.Dtos.BankTransaction;
 using BankMicroservice.Dtos.Payment;
 using BankMicroservice.Persistances.ReturnTypes;
-using BankMicroservice.Repository.BankTransactionRepository;
+using BankMicroservice.Services.BankTransactions;
 using System.Net;
 
 namespace BankMicroservice.Services.Payment
@@ -33,7 +33,7 @@ namespace BankMicroservice.Services.Payment
       var bankService = _bankService(verifyInput.BankId);
       var verifyRequestResult = bankService.VerifyRequestAsync(verifyInput).Result;
 
-      long transactionId = _bankTransactionService.GetTransactionIdByToken(verifyRequestResult.Data.Token).Result.Data;
+      long transactionId = _bankTransactionService.GetTransactionByToken(verifyRequestResult.Data.Token).Result.Data.Id;
 
       if(verifyRequestResult.Data.ResultCode == 0)
       {

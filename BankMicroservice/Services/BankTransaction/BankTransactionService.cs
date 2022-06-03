@@ -7,7 +7,7 @@ using BankMicroservice.Utils;
 using HttpService.Utils;
 using System.Net;
 
-namespace BankMicroservice.Repository.BankTransactionRepository
+namespace BankMicroservice.Services.BankTransactions
 {
   public class BankTransactionService : IBankTransactionService
   {
@@ -51,12 +51,25 @@ namespace BankMicroservice.Repository.BankTransactionRepository
       return result;
     }
 
-
-    public async Task<ReturnModel<long>> GetTransactionIdByToken(string token)
+    public async Task<ReturnModel<BankTransactionModel>> GetTransaction(long transactionId)
     {
-      ReturnModel<long> result = new();
-      long transactionId =(long) _repository.GetSingleAsync(x => x.BankToken == token,x=> x.Id).Result;
-      if(transactionId == null ||  transactionId == 0)
+      ReturnModel<BankTransactionModel> result = new();
+
+      BankTransactionModel bankTransaction = _repository.GetSingleAsync(transactionId).Result;
+
+
+      result.HttpStatusCode = HttpStatusCode.OK;
+      result.Data = bankTransaction;
+      result.DataTitle = "Transaction";
+      result.Message = ReturnMessage.SuccessMessage;
+      return result;
+    }
+
+    public async Task<ReturnModel<BankTransactionModel>> GetTransactionByToken(string token)
+    {
+      ReturnModel<BankTransactionModel> result = new();
+      BankTransactionModel transaction = _repository.GetSingleAsync(x => x.BankToken == token).Result;
+      if(transaction == null )
       {
         result.HttpStatusCode = HttpStatusCode.NotFound;
         result.Message = "تراکنش مورد نظر یافت نشد";
@@ -64,7 +77,7 @@ namespace BankMicroservice.Repository.BankTransactionRepository
       }
 
       result.HttpStatusCode = HttpStatusCode.OK;
-      result.Data = transactionId;
+      result.Data = transaction;
       result.DataTitle = "Transaction Id";
       result.Message = ReturnMessage.SuccessMessage;
       return result;

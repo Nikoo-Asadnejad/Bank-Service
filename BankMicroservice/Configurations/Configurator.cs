@@ -4,7 +4,6 @@ using BankMicroservice.Repository.GenericRepository;
 using BankMicroservice.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using HttpService.Utils;
-using BankMicroservice.Repository.BankTransactionRepository;
 using BankMicroservice.Services.Payment;
 using BankMicroservice.Services;
 using BankMicroservice.Persistances.Enumerations;
@@ -12,6 +11,7 @@ using BankMicroservice.Services.Bank;
 using HttpService.Configuration;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using BankMicroservice.Services.BankTransactions;
 
 namespace BankMicroservice.Configuration
 {

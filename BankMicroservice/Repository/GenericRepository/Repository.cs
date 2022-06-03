@@ -55,8 +55,7 @@ namespace BankMicroservice.Repository.GenericRepository
     /// <param name="skip">skip</param>
     /// <param name="take">take</param>
     /// <returns></returns>
-    public async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
-
+    public async Task<IQueryable<object>> GetListAsync(Expression<Func<T, bool>> query = null,
       Func<T,object> selector = null,
       Func<T, IOrderedQueryable<T>> orderBy = null,
       OrderByType? orderByType = null,
@@ -87,11 +86,22 @@ namespace BankMicroservice.Repository.GenericRepository
 
     }
 
+
+    public async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> query = null,
+     Func<T, IOrderedQueryable<T>> orderBy = null,
+     OrderByType? orderByType = null,
+     List<string> includes = null, int? skip = 0,
+     int? take = null, bool? distinct = null)
+    {
+      var result = (IQueryable<T>)GetListAsync(query, orderBy, orderByType, includes, skip).Result;
+      return result;
+    }
+
     public async Task<T> GetSingleAsync(long id)
     => await _model.FindAsync(id);
 
     public async Task<object> GetSingleAsync(Expression<Func<T, bool>> query,
-      Func<T,object> selector = null,
+      Func<T,object> selector,
       List<string> includes = null)
     {
       object result;
@@ -112,6 +122,13 @@ namespace BankMicroservice.Repository.GenericRepository
       
     }
 
+    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> query,
+      List<string> includes = null)
+    {
+      var result = (T)GetSingleAsync(query, includes).Result;
+      return result;
+    }
+
     public async Task UpdateAsync(T model)
     {
       _model.Update(model);
@@ -128,5 +145,13 @@ namespace BankMicroservice.Repository.GenericRepository
     {
       await _context.SaveChangesAsync();
     }
+
+   
+
+
+
+   
+
+  
   }
 }

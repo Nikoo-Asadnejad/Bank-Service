@@ -1,6 +1,6 @@
 using BankMicroservice.Entities;
 using BankMicroservice.Persistances.ReturnTypes;
-using BankMicroservice.Repository.BankTransactionRepository;
+using BankMicroservice.Services.BankTransactions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankMicroservice.Controllers
@@ -25,5 +25,7 @@ namespace BankMicroservice.Controllers
       ReturnModel<BankTransactionModel> result = _bankTransactionService.GetTransaction(transactionId).Result;
       return StatusCode((int)result.HttpStatusCode, result);
     }
+
+
   }
 }

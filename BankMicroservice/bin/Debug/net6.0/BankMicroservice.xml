@@ -4,11 +4,18 @@
         <name>BankMicroservice</name>
     </assembly>
     <members>
-        <member name="M:BankMicroservice.Controllers.BanksController.PaymentRequest(BankMicroservice.Dtos.Payment.PaymentInputDto)">
+        <member name="M:BankMicroservice.Controllers.BankController.PaymentRequest(BankMicroservice.Dtos.Payment.PaymentInputDto)">
             <summary>
             Sends A Payment Request to Bank user has sent its id
             </summary>
             <param name="paymentInput"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BankMicroservice.Controllers.BankTransactionController.GetTransaction(System.Int64)">
+            <summary>
+            Gets a bank transaction by id
+            </summary>
+            <param name="transactionId"></param>
             <returns></returns>
         </member>
         <member name="M:BankMicroservice.Dtos.Payment.PurchaseResultDto.#ctor(System.Int32,System.String,System.Nullable{System.Int64})">
