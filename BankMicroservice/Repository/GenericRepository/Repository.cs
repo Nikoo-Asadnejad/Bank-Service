@@ -123,5 +123,10 @@ namespace BankMicroservice.Repository.GenericRepository
       _model.UpdateRange(models);
       await _context.SaveChangesAsync();
     }
+
+    public async Task SaveAsync()
+    {
+      await _context.SaveChangesAsync();
+    }
   }
 }

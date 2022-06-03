@@ -1,6 +1,7 @@
 using BankMicroservice.Configurations.AppSettingItems;
 using BankMicroservice.Dtos.Bank;
 using BankMicroservice.Dtos.Bank.Sadad;
+using BankMicroservice.Dtos.Payment;
 using BankMicroservice.Persistances.ReturnTypes;
 using BankMicroservice.Repository.BankTransactionRepository;
 using HttpService.Interface;
@@ -59,17 +60,17 @@ namespace BankMicroservice.Services
 
     }
 
-    public async Task<ReturnModel<PaymentResultDto>> PaymentRequestAsync(string orderId, int amount)
+    public async Task<ReturnModel<PaymentResultDto>> PaymentRequestAsync(PaymentInputDto paymentInput)
     {
       try
       {
 
         ReturnModel<PaymentResultDto> returnValue = new();
       
-        string signData = await CreateSadadKeyAsync(orderId, amount);
+        string signData = await CreateSadadKeyAsync(paymentInput.OrderId, paymentInput.Price);
 
         //send request to sadad bank 
-        SadadPaymentDataDto sadadPaymentData = new(signData, amount, _returnURl, orderId, _merchantId, _terminalId);
+        SadadPaymentDataDto sadadPaymentData = new(signData, paymentInput.Price, _returnURl, paymentInput.OrderId, _merchantId, _terminalId);
         SadadPaymentResultDto sadadPaymentRequestResult = _httpService.PostAsync<SadadPaymentResultDto>(_paymentApi, sadadPaymentData).Result.Model;
         if (sadadPaymentRequestResult == null)
         {
@@ -79,7 +80,7 @@ namespace BankMicroservice.Services
           return returnValue;
         }
         //map sadad result to our payment result
-        PaymentResultDto paymentResult = new(sadadPaymentRequestResult.ResCode, orderId, sadadPaymentRequestResult.Token, sadadPaymentRequestResult.Description);
+        PaymentResultDto paymentResult = new(sadadPaymentRequestResult.ResCode, paymentInput.OrderId, sadadPaymentRequestResult.Token, sadadPaymentRequestResult.Description);
 
       //  await _loggerService.CaptureLogAsync(LogLevel.Info, $"Payment Request has sent To Sadad Bank the result is :{JsonConvert.SerializeObject(sadadPaymentRequestResult)} ," +
            //                                                    $"OrderId : {orderId}");
@@ -98,15 +99,15 @@ namespace BankMicroservice.Services
 
     }
 
-    public async Task<ReturnModel<VerifyResultDto>> VerifyRequestAsync(string token)
+    public async Task<ReturnModel<VerifyResultDto>> VerifyRequestAsync(VerifyInputDto verifyInput)
     {
       try
       {
         ReturnModel<VerifyResultDto> returnValue = new();
-        string signData = await DecodeSadadKeyAsync(token);
+        string signData = await DecodeSadadKeyAsync(verifyInput.Token);
 
         //send request to sadad
-        SadadVerifyRequestDataDto sadadVerifyRequestData = new(signData, token);
+        SadadVerifyRequestDataDto sadadVerifyRequestData = new(signData, verifyInput.Token);
 
         //SadadVerifyResultDto
         SadadVerifyResultDto sadadVerifyResult = _httpService.PostAsync<SadadVerifyResultDto>(_verifyApi, sadadVerifyRequestData).Result.Model;
@@ -118,7 +119,7 @@ namespace BankMicroservice.Services
           return returnValue;
         }
         // map sadad result to our verify result
-        VerifyResultDto verifyResult = new(sadadVerifyResult.ResCode, token, sadadVerifyResult.OrderId,
+        VerifyResultDto verifyResult = new(sadadVerifyResult.ResCode, verifyInput.Token, sadadVerifyResult.OrderId,
                                              Convert.ToInt32(sadadVerifyResult.Amount), sadadVerifyResult.Description,
                                              sadadVerifyResult.RetrivalRefNo, sadadVerifyResult.SystemTraceNo);
 

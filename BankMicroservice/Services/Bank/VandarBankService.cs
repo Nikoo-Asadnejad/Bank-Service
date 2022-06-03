@@ -16,7 +16,7 @@ namespace BankMicroservice.Services.Bank
       throw new NotImplementedException();
     }
 
-    public Task<ReturnModel<VerifyResultDto>> VerifyRequestAsync(string token)
+    public Task<ReturnModel<VerifyResultDto>> VerifyRequestAsync(VerifyInputDto verifyInput)
     {
       throw new NotImplementedException();
     }

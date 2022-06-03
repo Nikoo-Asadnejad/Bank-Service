@@ -1,4 +1,4 @@
-namespace BankMicroservice.Dtos.Bank
+namespace BankMicroservice.Dtos.Payment
 {
     public class PaymentResultDto
     {

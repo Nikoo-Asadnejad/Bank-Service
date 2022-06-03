@@ -5,4 +5,6 @@ namespace BankMicroservice.Persistances.Enumerations
     Sadad = 1,
     Vandar = 2
   }
+
+  
 }
