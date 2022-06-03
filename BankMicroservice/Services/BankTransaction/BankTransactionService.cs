@@ -1,9 +1,9 @@
 using BankMicroservice.Dtos.BankTransaction;
 using BankMicroservice.Entities;
 using BankMicroservice.Persistances.ReturnTypes;
-using BankMicroservice.Repository.GenericRepository;
 using BankMicroservice.Repository.UnitOfWork;
 using BankMicroservice.Utils;
+using GenericReositoryDll.Repository.GenericRepository;
 using HttpService.Utils;
 using System.Net;
 
@@ -28,7 +28,7 @@ namespace BankMicroservice.Services.BankTransactions
       if(isExist)
       {
         result.HttpStatusCode = HttpStatusCode.BadRequest;
-        result.Message = "شماره سفارش تکراری است";
+        result.Message = ReturnMessage.DuplicationErrorMessage;
         return result;
       }
 
@@ -54,9 +54,15 @@ namespace BankMicroservice.Services.BankTransactions
     public async Task<ReturnModel<BankTransactionModel>> GetTransaction(long transactionId)
     {
       ReturnModel<BankTransactionModel> result = new();
-
       BankTransactionModel bankTransaction = _repository.GetSingleAsync(transactionId).Result;
 
+      if(bankTransaction == null)
+      {
+        result.HttpStatusCode = HttpStatusCode.NotFound;
+        result.DataTitle = "Transaction";
+        result.Message = ReturnMessage.NotFoundMessage;
+        return result;
+      }
 
       result.HttpStatusCode = HttpStatusCode.OK;
       result.Data = bankTransaction;
@@ -72,13 +78,14 @@ namespace BankMicroservice.Services.BankTransactions
       if(transaction == null )
       {
         result.HttpStatusCode = HttpStatusCode.NotFound;
-        result.Message = "تراکنش مورد نظر یافت نشد";
+        result.Message = ReturnMessage.NotFoundMessage;
+        result.DataTitle = "Transaction";
         return result;
       }
 
       result.HttpStatusCode = HttpStatusCode.OK;
       result.Data = transaction;
-      result.DataTitle = "Transaction Id";
+      result.DataTitle = "Transaction";
       result.Message = ReturnMessage.SuccessMessage;
       return result;
     }
@@ -89,6 +96,13 @@ namespace BankMicroservice.Services.BankTransactions
       ReturnModel<long> result = new();
 
       var transaction = _repository.GetSingleAsync(transactionId).Result;
+      if(transaction == null )
+      {
+        result.HttpStatusCode = HttpStatusCode.NotFound;
+        result.Message = ReturnMessage.NotFoundMessage;
+        result.DataTitle = "Transaction";
+        return result;
+      }
       transaction.IsSuccessfull = isSuccessfull;
       await _repository.UpdateAsync(transaction);
 

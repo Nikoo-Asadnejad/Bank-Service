@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\GenericRepository\**" />
+    <Content Remove="Repository\GenericRepository\**" />
+    <EmbeddedResource Remove="Repository\GenericRepository\**" />
+    <None Remove="Repository\GenericRepository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
@@ -31,6 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="GenericRepositoryDll">
+      <HintPath>..\..\GenericRepositoryDll\GenericRepositoryDll\GenericRepositoryDll\GenericRepositoryDll\bin\Release\net6.0\GenericRepositoryDll.dll</HintPath>
+    </Reference>
     <Reference Include="HttpService">
       <HintPath>..\..\HttpService\HttpServiceDll\HttpService\bin\Release\net6.0\HttpService.dll</HintPath>
     </Reference>

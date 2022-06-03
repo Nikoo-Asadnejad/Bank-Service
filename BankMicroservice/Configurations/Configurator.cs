@@ -1,6 +1,5 @@
 using BankMicroservice.Configurations.AppSettingItems;
 using BankMicroservice.Model;
-using BankMicroservice.Repository.GenericRepository;
 using BankMicroservice.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using HttpService.Utils;
@@ -12,6 +11,7 @@ using HttpService.Configuration;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using BankMicroservice.Services.BankTransactions;
+using GenericRepositoryDll.Configuration;
 
 namespace BankMicroservice.Configuration
 {
@@ -45,7 +45,9 @@ namespace BankMicroservice.Configuration
       services.Configure<VandarBankData>(configuration.GetSection("VandarData"));
       
       HttpServiceConfigurator.InjectHttpService(services);
-      services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+      GenericRepositoryConfigurator.InjectServices(services);
+      services.AddScoped<DbContext, Context>();
+      //services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
       services.AddTransient<IUnitOfWork, UnitOfWork>();
       services.AddTransient<IBankTransactionService, BankTransactionService>();
       services.AddTransient<IPaymentService, PaymentService>();

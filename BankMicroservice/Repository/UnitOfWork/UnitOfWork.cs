@@ -1,6 +1,6 @@
 using BankMicroservice.Entities;
 using BankMicroservice.Model;
-using BankMicroservice.Repository.GenericRepository;
+using GenericReositoryDll.Repository.GenericRepository;
 
 namespace BankMicroservice.Repository.UnitOfWork
 {

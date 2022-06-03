@@ -48,30 +48,5 @@
             <param name="description">Description</param>
             <param name="transId">TraceNumber</param>
         </member>
-        <member name="M:BankMicroservice.Repository.GenericRepository.IRepository`1.GetListAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Func{`0,System.Object},System.Func{`0,System.Linq.IOrderedQueryable{`0}},System.Nullable{BankMicroservice.Persistances.Enumerations.OrderByType},System.Collections.Generic.List{System.String},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean})">
-            <summary>
-            
-            </summary>
-            <param name="query">Query </param>
-            <param name="selector">Select </param>
-            <param name="orderBy">Order By</param>
-            <param name="orderByType">Asc| Desc</param>
-            <param name="includes">include</param>
-            <param name="skip">skip</param>
-            <param name="take">take</param>
-            <param name="distinct">isDistinct</param>
-            <returns></returns>
-        </member>
-        <member name="M:BankMicroservice.Repository.GenericRepository.Repository`1.GetListAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Func{`0,System.Object},System.Func{`0,System.Linq.IOrderedQueryable{`0}},System.Nullable{BankMicroservice.Persistances.Enumerations.OrderByType},System.Collections.Generic.List{System.String},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean})">
-            <summary>
-            
-            </summary>
-            <param name="query">Get where query</param>
-            <param name="orderBy">Order by orderBy expression</param>
-            <param name="orderByType">Desc | Asc </param>
-            <param name="skip">skip</param>
-            <param name="take">take</param>
-            <returns></returns>
-        </member>
     </members>
 </doc>
