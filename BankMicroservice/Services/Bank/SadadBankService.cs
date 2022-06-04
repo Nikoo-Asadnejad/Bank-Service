@@ -47,9 +47,8 @@ namespace BankMicroservice.Services
       try
       {
         ReturnModel<string> returnValue = new();
-        string purchaseUrl;
-        purchaseUrl = _purchaseUrl + $"?token={token}";
-        returnValue.Data = purchaseUrl;
+        string purchaseUrl = _purchaseUrl + $"?token={token}";
+        returnValue.CreateSuccessModel(purchaseUrl, "Purchase url");
         return returnValue;
       }
       catch (Exception ex)
@@ -85,9 +84,8 @@ namespace BankMicroservice.Services
 
       //  await _loggerService.CaptureLogAsync(LogLevel.Info, $"Payment Request has sent To Sadad Bank the result is :{JsonConvert.SerializeObject(sadadPaymentRequestResult)} ," +
            //                                                    $"OrderId : {orderId}");
-        returnValue.HttpStatusCode = HttpStatusCode.OK;
-        returnValue.Message = ReturnMessage.SuccessMessage;
-        returnValue.Data = paymentResult;
+
+        returnValue.CreateSuccessModel(paymentResult, "Payment request Result");
         return returnValue;
 
       }
@@ -114,8 +112,7 @@ namespace BankMicroservice.Services
         SadadVerifyResultDto sadadVerifyResult = _httpService.PostAsync<SadadVerifyResultDto>(_verifyApi, sadadVerifyRequestData).Result.Model;
         if (sadadVerifyRequestData == null)
         {
-          returnValue.HttpStatusCode = HttpStatusCode.BadRequest;
-          returnValue.Message = "پاسخی از بانک دریافت نشد";
+          returnValue.CreateBadRequestModel("Verify Result","پاسخی از بانک دریافت نشد");
          // await _loggerService.CaptureLogAsync(LogLevel.Error, "The BankResult For verify Request to Sadad Was null");
           return returnValue;
         }
@@ -127,9 +124,7 @@ namespace BankMicroservice.Services
 
       //  await _loggerService.CaptureLogAsync(LogLevel.Info, $"Verify Request has sent To Sadad Bank with result : {JsonConvert.SerializeObject(sadadVerifyResult)} ," +
                                                         //    $" token : {token} , signData : {signData}");
-        returnValue.HttpStatusCode = HttpStatusCode.OK;
-        returnValue.Message = ReturnMessage.SuccessMessage;
-        returnValue.Data = verifyResult;
+        returnValue.CreateSuccessModel(verifyResult, "Verify Result");
         return returnValue;
 
       }
@@ -157,11 +152,9 @@ namespace BankMicroservice.Services
           ReturnModel<BankTransactionModel> transaction = _bankTransactionService.GetTransactionByToken(token).Result;
           bankTransactionId = transaction.Data.Id;
         }
-        result.HttpStatusCode = HttpStatusCode.OK;
-        result.Message = ReturnMessage.SuccessMessage;
-        result.DataTitle = "CheckOut Url";
+
         resultUrl = _meliBankData.ResultUrl + $"?transactionId={bankTransactionId}";
-        result.Data = resultUrl;
+        result.CreateSuccessModel(resultUrl, "CheckOut Url");
         return result;
 
 

@@ -56,6 +56,12 @@ namespace BankMicroservice.Persistances.ReturnTypes
             Message = message != null ? ReturnMessage.InvalidInputDataErrorMessage : message;
           }
           break;
+        case ReturnModelTypes.DuplicationError:
+          {
+            HttpStatusCode = HttpStatusCode.BadRequest;
+            Message = message == null ? ReturnMessage.DuplicationErrorMessage : message;
+          }
+          break;
         default:
           {
             HttpStatusCode = (HttpStatusCode)statusCode;
@@ -74,32 +80,54 @@ namespace BankMicroservice.Persistances.ReturnTypes
     }
 
 
-    public ReturnModel<T> CreateSuccessModel(T data , string message = null)
+    public ReturnModel<T> CreateSuccessModel(T data ,string title = null, string message = null)
     { 
       this.Data = data;
       this.HttpStatusCode = HttpStatusCode.OK;
+      this.DataTitle = title;
       this.Message = message == null ? ReturnMessage.SuccessMessage : message;
       return this;
     }
 
-    public ReturnModel<T> CreateNotFoundModel(string message = null)
+    public ReturnModel<T> CreateNotFoundModel(string title = null,string message = null)
     {
       this.HttpStatusCode = HttpStatusCode.NotFound;
+      this.DataTitle = title;
       this.Message = message == null ? ReturnMessage.NotFoundMessage : message;
       return this;
     }
 
-    public ReturnModel<T> CreateServerErrorModel(string message = null)
+    public ReturnModel<T> CreateServerErrorModel(string title = null, string message = null)
     {
       this.HttpStatusCode = HttpStatusCode.InternalServerError;
+      this.DataTitle = title;
       this.Message = message == null ? ReturnMessage.ServerErrorMessage : message;
       return this;
     }
 
-    public ReturnModel<T> CreateBadRequestModel(string message = null)
+    public ReturnModel<T> CreateBadRequestModel(string title = null, string message = null)
     {
       this.HttpStatusCode = HttpStatusCode.BadRequest;
+      this.DataTitle = title;
       this.Message = message == null ? ReturnMessage.ServerErrorMessage : message;
+      return this;
+    }
+
+
+    public ReturnModel<T> CreateInvalidInputErrorModel(string title = null, string message = null)
+    {
+      this.HttpStatusCode = HttpStatusCode.BadRequest;
+      this.DataTitle = title;
+      this.Message = message == null ? ReturnMessage.InvalidInputDataErrorMessage : message;
+      return this;
+    }
+
+
+    public ReturnModel<T> CreateDuplicatedErrorModel(string title = null, string message = null)
+    {
+      this.HttpStatusCode = HttpStatusCode.BadRequest;
+      this.DataTitle = title;
+      this.Message = message == null ? ReturnMessage.DuplicationErrorMessage : message;
       return this;
     }
 

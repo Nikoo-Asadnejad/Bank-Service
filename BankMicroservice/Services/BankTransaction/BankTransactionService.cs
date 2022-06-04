@@ -27,8 +27,7 @@ namespace BankMicroservice.Services.BankTransactions
       bool isExist = _repository.AnyAsync(x => x.OrderId == inputModel.OrderId).Result;
       if(isExist)
       {
-        result.HttpStatusCode = HttpStatusCode.BadRequest;
-        result.Message = ReturnMessage.DuplicationErrorMessage;
+        result.CreateDuplicatedErrorModel();
         return result;
       }
 
@@ -43,10 +42,11 @@ namespace BankMicroservice.Services.BankTransactions
       };
       await _repository.AddAsync(bankTransaction);
 
-      result.HttpStatusCode = HttpStatusCode.OK;
-      result.Data = bankTransaction.Id;
-      result.Message = ReturnMessage.SuccessMessage;
-      result.DataTitle = "BankTransaction Id";
+      result.CreateSuccessModel(bankTransaction.Id ,"BankTransaction Id");
+      //result.HttpStatusCode = HttpStatusCode.OK;
+      //result.Data = bankTransaction.Id;
+      //result.Message = ReturnMessage.SuccessMessage;
+      //result.DataTitle = "BankTransaction Id";
 
       return result;
     }
@@ -58,16 +58,18 @@ namespace BankMicroservice.Services.BankTransactions
 
       if(bankTransaction == null)
       {
-        result.HttpStatusCode = HttpStatusCode.NotFound;
-        result.DataTitle = "Transaction";
-        result.Message = ReturnMessage.NotFoundMessage;
+        //result.HttpStatusCode = HttpStatusCode.NotFound;
+        //result.DataTitle = "Transaction";
+        //result.Message = ReturnMessage.NotFoundMessage;
+        result.CreateNotFoundModel("Transaction");
         return result;
       }
 
-      result.HttpStatusCode = HttpStatusCode.OK;
-      result.Data = bankTransaction;
-      result.DataTitle = "Transaction";
-      result.Message = ReturnMessage.SuccessMessage;
+      result.CreateSuccessModel(bankTransaction, "Transaction");
+      //result.HttpStatusCode = HttpStatusCode.OK;
+      //result.Data = bankTransaction;
+      //result.DataTitle = "Transaction";
+      //result.Message = ReturnMessage.SuccessMessage;
       return result;
     }
 

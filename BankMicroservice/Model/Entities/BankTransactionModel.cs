@@ -9,6 +9,20 @@ namespace BankMicroservice.Entities
     public long TransactionDate { get; set; }
     public string BankToken { get; set; }
     public string BankResult { get; set; }
-    
+
+    public BankTransactionModel()
+    {
+
+    }
+
+    public BankTransactionModel(int bankId, string orderId, string bankResult, bool? isSuccessfull = null)
+    {
+      BankId = bankId;
+      OrderId = orderId;
+      IsSuccessfull = isSuccessfull;
+      BankResult = bankResult;
+      TransactionDate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+    }
+
   }
 }

@@ -6,6 +6,7 @@ namespace BankMicroservice.Persistances.Enumerations
     NotFound,
     InternalServerError,
     BadRequest,
-    InvalidInput
+    InvalidInput,
+    DuplicationError
   }
 }
