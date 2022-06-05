@@ -31,23 +31,11 @@ namespace BankMicroservice.Services.BankTransactions
         return result;
       }
 
-      BankTransactionModel bankTransaction = new BankTransactionModel()
-      {
-        BankId = inputModel.BankId,
-        OrderId = inputModel.OrderId,
-        IsSuccessfull = null,
-        BankResult = inputModel.BankResult.Serialize<object>(),
-        TransactionDate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-        
-      };
+      BankTransactionModel bankTransaction = new(inputModel.BankId, inputModel.OrderId, inputModel.BankResult);
+      
       await _repository.AddAsync(bankTransaction);
 
       result.CreateSuccessModel(bankTransaction.Id ,"BankTransaction Id");
-      //result.HttpStatusCode = HttpStatusCode.OK;
-      //result.Data = bankTransaction.Id;
-      //result.Message = ReturnMessage.SuccessMessage;
-      //result.DataTitle = "BankTransaction Id";
-
       return result;
     }
 
@@ -58,18 +46,11 @@ namespace BankMicroservice.Services.BankTransactions
 
       if(bankTransaction == null)
       {
-        //result.HttpStatusCode = HttpStatusCode.NotFound;
-        //result.DataTitle = "Transaction";
-        //result.Message = ReturnMessage.NotFoundMessage;
         result.CreateNotFoundModel("Transaction");
         return result;
       }
 
       result.CreateSuccessModel(bankTransaction, "Transaction");
-      //result.HttpStatusCode = HttpStatusCode.OK;
-      //result.Data = bankTransaction;
-      //result.DataTitle = "Transaction";
-      //result.Message = ReturnMessage.SuccessMessage;
       return result;
     }
 
@@ -79,16 +60,11 @@ namespace BankMicroservice.Services.BankTransactions
       BankTransactionModel transaction = _repository.GetSingleAsync(x => x.BankToken == token).Result;
       if(transaction == null )
       {
-        result.HttpStatusCode = HttpStatusCode.NotFound;
-        result.Message = ReturnMessage.NotFoundMessage;
-        result.DataTitle = "Transaction";
+        result.CreateNotFoundModel("Transaction");
         return result;
       }
 
-      result.HttpStatusCode = HttpStatusCode.OK;
-      result.Data = transaction;
-      result.DataTitle = "Transaction";
-      result.Message = ReturnMessage.SuccessMessage;
+      result.CreateSuccessModel(transaction, "Transaction");
       return result;
     }
 
@@ -100,18 +76,13 @@ namespace BankMicroservice.Services.BankTransactions
       var transaction = _repository.GetSingleAsync(transactionId).Result;
       if(transaction == null )
       {
-        result.HttpStatusCode = HttpStatusCode.NotFound;
-        result.Message = ReturnMessage.NotFoundMessage;
-        result.DataTitle = "Transaction";
+        result.CreateNotFoundModel("Transaction Id");
         return result;
       }
       transaction.IsSuccessfull = isSuccessfull;
       await _repository.UpdateAsync(transaction);
 
-      result.HttpStatusCode = HttpStatusCode.OK;
-      result.Data = transaction.Id;
-      result.DataTitle = "Transaction Id";
-      result.Message = ReturnMessage.SuccessMessage;
+      result.CreateSuccessModel(transaction.Id, "Transaction Id");
       return result;
 
 

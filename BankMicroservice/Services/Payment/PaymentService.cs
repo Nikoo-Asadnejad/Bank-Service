@@ -45,9 +45,7 @@ namespace BankMicroservice.Services.Payment
       }
 
 
-      result.Data = verifyRequestResult.Data;
-      result.Message = ReturnMessage.SuccessMessage;
-      result.HttpStatusCode = HttpStatusCode.OK;
+      result.CreateSuccessModel(verifyRequestResult.Data, "Verify Result");
       return result;
     }
   }
