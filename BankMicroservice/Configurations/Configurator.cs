@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using BankMicroservice.Services.BankTransactions;
 using GenericRepositoryDll.Configuration;
+using ErrorHandlingDll.Configurations;
 
 namespace BankMicroservice.Configuration
 {
@@ -46,6 +47,8 @@ namespace BankMicroservice.Configuration
       
       HttpServiceConfigurator.InjectHttpService(services);
       GenericRepositoryConfigurator.InjectServices(services);
+      ErrorHandlingDllConfigurator.InjectServices(services, configuration);
+     
       services.AddScoped<DbContext, Context>();
       //services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
       services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -77,6 +80,7 @@ namespace BankMicroservice.Configuration
         });
       }
 
+      ErrorHandlingDllConfigurator.ConfigureAppPipeline(app);
       app.UseHttpsRedirection();
 
       app.UseAuthorization();

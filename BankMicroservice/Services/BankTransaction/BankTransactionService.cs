@@ -24,6 +24,12 @@ namespace BankMicroservice.Services.BankTransactions
 
       ReturnModel<long> result = new();
 
+      if(inputModel == null )
+      {
+        result.CreateInvalidInputErrorModel("Transaction Id");
+        return result;
+      }
+
       bool isExist = _repository.AnyAsync(x => x.OrderId == inputModel.OrderId).Result;
       if(isExist)
       {
@@ -63,7 +69,7 @@ namespace BankMicroservice.Services.BankTransactions
         result.CreateNotFoundModel("Transaction");
         return result;
       }
-
+      
       result.CreateSuccessModel(transaction, "Transaction");
       return result;
     }
