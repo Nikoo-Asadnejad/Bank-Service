@@ -15,61 +15,6 @@ namespace BankMicroservice.Persistances.ReturnTypes
 
     }
 
-    public ReturnModel(string title,T? data ,
-      ReturnModelTypes? type = null,HttpStatusCode? statusCode = null,
-      string message = null)
-    {
-      DataTitle = title;
-      Data = data;
-      switch (type)
-        {
-        case ReturnModelTypes.Success:
-          {
-            Data = data;
-            HttpStatusCode = HttpStatusCode.OK;
-            Message = message == null ? ReturnMessage.SuccessMessage : message;
-            
-          }
-          break;
-        case ReturnModelTypes.NotFound:
-          {
-            HttpStatusCode = HttpStatusCode.NotFound;
-            Message = message == null ? ReturnMessage.NotFoundMessage : message;
-          }
-          break;
-        case ReturnModelTypes.InternalServerError:
-          {
-            HttpStatusCode = HttpStatusCode.InternalServerError;
-            Message = message == null ? ReturnMessage.ServerErrorMessage : message;
-          }
-          break;
-        case ReturnModelTypes.BadRequest:
-          {
-            HttpStatusCode = HttpStatusCode.BadRequest;
-            Message = message == null ? ReturnMessage.BadRequestErrorMessage : message;
-
-          }
-          break;
-        case ReturnModelTypes.InvalidInput:
-          {
-            HttpStatusCode = HttpStatusCode.BadRequest;
-            Message = message != null ? ReturnMessage.InvalidInputDataErrorMessage : message;
-          }
-          break;
-        case ReturnModelTypes.DuplicationError:
-          {
-            HttpStatusCode = HttpStatusCode.BadRequest;
-            Message = message == null ? ReturnMessage.DuplicationErrorMessage : message;
-          }
-          break;
-        default:
-          {
-            HttpStatusCode = (HttpStatusCode)statusCode;
-            Message = message;
-          }
-          break;
-      }
-    }
 
     public ReturnModel(string title , T data , HttpStatusCode statusCode , string message)
     {
@@ -113,7 +58,6 @@ namespace BankMicroservice.Persistances.ReturnTypes
       return this;
     }
 
-
     public ReturnModel<T> CreateInvalidInputErrorModel(string title = null, string message = null)
     {
       this.HttpStatusCode = HttpStatusCode.BadRequest;
@@ -121,7 +65,6 @@ namespace BankMicroservice.Persistances.ReturnTypes
       this.Message = message == null ? ReturnMessage.InvalidInputDataErrorMessage : message;
       return this;
     }
-
 
     public ReturnModel<T> CreateDuplicatedErrorModel(string title = null, string message = null)
     {
